@@ -65,10 +65,6 @@ namespace Platformer.Mechanics
             {
                 HandleJump();
             }
-            else
-            {
-                move.x = 0;
-            }
             UpdateJumpState();
             base.Update();
         }
@@ -111,6 +107,7 @@ namespace Platformer.Mechanics
         {
             if (jump && (IsGrounded || _airJumpsLeft >= 0 && !IsGrounded))
             {
+                // If we're dubble jumping, we want to jump a bit less high.
                 velocity.y = (jumpTakeOffSpeed * model.jumpModifier) * (_airJumpsLeft == _airJumps ? 1f : .75f);
                 jump = false;
                 --_airJumpsLeft;
@@ -147,7 +144,11 @@ namespace Platformer.Mechanics
 
         private void HandleJump()
         {
-            move.x = Input.GetAxis("Horizontal");
+            if (controlEnabled)
+            {
+                move.x = Input.GetAxis("Horizontal");
+            }
+
             if ((jumpState == JumpState.Grounded || _airJumpsLeft >= 0 && jumpState != JumpState.Grounded) && Input.GetButtonDown("Jump"))
             {
                 jumpState = JumpState.PrepareToJump;
@@ -158,6 +159,18 @@ namespace Platformer.Mechanics
                 stopJump = true;
                 Schedule<PlayerStopJump>().player = this;
             }
+        }
+
+        // Function that disbles the controls for a short period of time.
+        public void DisableControls(float duration)
+        {
+            controlEnabled = false;
+            Invoke("EnableControls", duration);
+        }
+
+        private void EnableControls()
+        {
+            controlEnabled = true;
         }
     }
 }

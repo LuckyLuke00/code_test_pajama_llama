@@ -6,7 +6,6 @@ using static Platformer.Core.Simulation;
 
 namespace Platformer.Gameplay
 {
-
     /// <summary>
     /// Fired when a Player collides with an Enemy.
     /// </summary>
@@ -16,7 +15,7 @@ namespace Platformer.Gameplay
         public EnemyController enemy;
         public PlayerController player;
 
-        PlatformerModel model = Simulation.GetModel<PlatformerModel>();
+        private PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         public override void Execute()
         {
@@ -46,7 +45,21 @@ namespace Platformer.Gameplay
             }
             else
             {
-                Schedule<PlayerDeath>();
+                var playerHealth = player.GetComponent<Health>();
+                if (playerHealth)
+                {
+                    // Invoke the player's hurt animation.
+                    player.animator.SetTrigger("hurt");
+                    playerHealth.Decrement();
+
+                    // Disable player control for a short period.
+                    player.DisableControls(1f);
+                    player.Bounce(5);
+                }
+                else
+                {
+                    Schedule<PlayerDeath>();
+                }
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Platformer.Mechanics
         /// </summary>
         public bool IsAlive => currentHP > 0;
 
-        int currentHP;
+        private int currentHP;
 
         /// <summary>
         /// Increment the HP of the entity.
@@ -28,6 +28,14 @@ namespace Platformer.Mechanics
         public void Increment()
         {
             currentHP = Mathf.Clamp(currentHP + 1, 0, maxHP);
+        }
+
+        /// <summary>
+        /// Reset the HP of the entity to maxHP.
+        /// </summary>
+        public void ResetHealth()
+        {
+            currentHP = maxHP;
         }
 
         /// <summary>
@@ -52,7 +60,7 @@ namespace Platformer.Mechanics
             while (currentHP > 0) Decrement();
         }
 
-        void Awake()
+        private void Awake()
         {
             currentHP = maxHP;
         }
