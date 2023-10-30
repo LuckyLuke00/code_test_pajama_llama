@@ -155,7 +155,14 @@ namespace Platformer.Mechanics
                             velocity = velocity - projection * currentNormal;
                         }
                     }
-
+                    else
+                    {
+                        // If we hit the ceiling invert the vertical velocity.
+                        if (currentNormal.y < 0)
+                        {
+                            velocity.y = -velocity.y;
+                        }
+                    }
                     //remove shellDistance from actual move distance.
                     var modifiedDistance = hitBuffer[i].distance - shellRadius;
                     distance = modifiedDistance < distance ? modifiedDistance : distance;

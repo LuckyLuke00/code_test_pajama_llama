@@ -109,7 +109,7 @@ namespace Platformer.Mechanics
 
         protected override void ComputeVelocity()
         {
-            if (jump && (IsGrounded || _airJumpsLeft >= 0))
+            if (jump && (IsGrounded || _airJumpsLeft >= 0 && !IsGrounded))
             {
                 velocity.y = (jumpTakeOffSpeed * model.jumpModifier) * (_airJumpsLeft == _airJumps ? 1f : .75f);
                 jump = false;
@@ -148,7 +148,7 @@ namespace Platformer.Mechanics
         private void HandleJump()
         {
             move.x = Input.GetAxis("Horizontal");
-            if ((jumpState == JumpState.Grounded || _airJumpsLeft >= 0) && Input.GetButtonDown("Jump"))
+            if ((jumpState == JumpState.Grounded || _airJumpsLeft >= 0 && jumpState != JumpState.Grounded) && Input.GetButtonDown("Jump"))
             {
                 jumpState = JumpState.PrepareToJump;
             }
