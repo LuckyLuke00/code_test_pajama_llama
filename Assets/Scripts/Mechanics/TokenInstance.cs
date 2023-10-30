@@ -12,6 +12,11 @@ namespace Platformer.Mechanics
     [RequireComponent(typeof(Collider2D))]
     public class TokenInstance : MonoBehaviour
     {
+        // Create static event on token collected
+        public delegate void TokenCollected();
+
+        public static event TokenCollected OnTokenCollected;
+
         public AudioClip tokenCollectAudio;
 
         [Tooltip("If true, animation will start at a random position in the sequence.")]
@@ -61,6 +66,9 @@ namespace Platformer.Mechanics
             var ev = Schedule<PlayerTokenCollision>();
             ev.token = this;
             ev.player = player;
+
+            // Invoke event on token collected
+            OnTokenCollected?.Invoke();
         }
     }
 }
