@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace Platformer.Core
+﻿namespace Platformer.Core
 {
     public static partial class Simulation
     {
         /// <summary>
         /// An event is something that happens at a point in time in a simulation.
         /// The Precondition method is used to check if the event should be executed,
-        /// as conditions may have changed in the simulation since the event was 
+        /// as conditions may have changed in the simulation since the event was
         /// originally scheduled.
         /// </summary>
         /// <typeparam name="Event"></typeparam>
@@ -36,7 +34,6 @@ namespace Platformer.Core
             /// </summary>
             internal virtual void Cleanup()
             {
-
             }
         }
 

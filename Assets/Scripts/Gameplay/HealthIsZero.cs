@@ -1,6 +1,5 @@
 using Platformer.Core;
 using Platformer.Mechanics;
-using System.Diagnostics;
 using static Platformer.Core.Simulation;
 
 namespace Platformer.Gameplay

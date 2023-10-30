@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿#if UNITY_EDITOR
 
-#if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 using UnityEngine;
@@ -45,10 +44,12 @@ namespace Platformer.View
     }
 
 #if UNITY_EDITOR
+
     [CustomEditor(typeof(AnimatedTile))]
     public class AnimatedTileEditor : Editor
     {
-        private AnimatedTile tile { get { return (target as AnimatedTile); } }
+        private AnimatedTile tile
+        { get { return (target as AnimatedTile); } }
 
         public override void OnInspectorGUI()
         {
@@ -93,5 +94,6 @@ namespace Platformer.View
                 EditorUtility.SetDirty(tile);
         }
     }
+
 #endif
 }

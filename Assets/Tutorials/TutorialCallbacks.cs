@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using Unity.Tutorials.Core.Editor;
+﻿using Unity.Tutorials.Core.Editor;
 using UnityEditor;
+using UnityEngine;
 
 namespace Unity.Tutorials
 {

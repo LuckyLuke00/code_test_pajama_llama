@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Jiggler : MonoBehaviour
 {
@@ -9,37 +7,47 @@ public class Jiggler : MonoBehaviour
 
     [Header("Position Jiggler")]
     public bool jigPosition = true;
+
     public Vector3 positionJigAmount;
+
     [Range(0, 120)]
     public float positionFrequency = 10;
-    float positionTime;
+
+    private float positionTime;
 
     [Header("Rotation Jiggler")]
     public bool jigRotation = true;
+
     public Vector3 rotationJigAmount;
+
     [Range(0, 120)]
     public float rotationFrequency = 10;
-    float rotationTime;
+
+    private float rotationTime;
 
     [Header("Scale Jiggler")]
     public bool jigScale = true;
+
     public Vector3 scaleJigAmount = new Vector3(.1f, -.1f, .1f);
+
     [Range(0, 120)]
     public float scaleFrequency = 10;
-    float scaleTime;
 
-    Vector3 basePosition;
-    Quaternion baseRotation;
-    Vector3 baseScale;
+    private float scaleTime;
 
-    void Start(){
+    private Vector3 basePosition;
+    private Quaternion baseRotation;
+    private Vector3 baseScale;
+
+    private void Start()
+    {
         basePosition = transform.localPosition;
         baseRotation = transform.localRotation;
         baseScale = transform.localScale;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var dt = Time.deltaTime;
         positionTime += dt * positionFrequency;
@@ -47,12 +55,12 @@ public class Jiggler : MonoBehaviour
         scaleTime += dt * scaleFrequency;
 
         if (jigPosition)
-        transform.localPosition = basePosition + positionJigAmount * Mathf.Sin(positionTime) * power;
+            transform.localPosition = basePosition + positionJigAmount * Mathf.Sin(positionTime) * power;
 
         if (jigRotation)
-        transform.localRotation = baseRotation * Quaternion.Euler(rotationJigAmount * Mathf.Sin(positionTime) * power);
+            transform.localRotation = baseRotation * Quaternion.Euler(rotationJigAmount * Mathf.Sin(positionTime) * power);
 
         if (jigScale)
-        transform.localScale = baseScale + scaleJigAmount * Mathf.Sin(scaleTime) * power;
+            transform.localScale = baseScale + scaleJigAmount * Mathf.Sin(scaleTime) * power;
     }
 }

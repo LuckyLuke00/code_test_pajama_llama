@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Platformer.Core;
 using Platformer.Gameplay;
-using static Platformer.Core.Simulation;
 using Platformer.Model;
-using Platformer.Core;
+using UnityEngine;
+using static Platformer.Core.Simulation;
 
 namespace Platformer.Mechanics
 {

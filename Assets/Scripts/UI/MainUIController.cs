@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Platformer.UI
 {
@@ -21,7 +19,7 @@ namespace Platformer.UI
             }
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             SetActivePanel(0);
         }

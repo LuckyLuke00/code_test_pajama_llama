@@ -7,12 +7,12 @@ namespace Platformer.Mechanics
     /// <summary>
     /// This class exposes the the game model in the inspector, and ticks the
     /// simulation.
-    /// </summary> 
+    /// </summary>
     public class GameController : MonoBehaviour
     {
         public static GameController Instance { get; private set; }
 
-        //This model field is public and can be therefore be modified in the 
+        //This model field is public and can be therefore be modified in the
         //inspector.
         //The reference actually comes from the InstanceRegister, and is shared
         //through the simulation and events. Unity will deserialize over this
@@ -20,17 +20,17 @@ namespace Platformer.Mechanics
         //conveniently configured inside the inspector.
         public PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
-        void OnEnable()
+        private void OnEnable()
         {
             Instance = this;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             if (Instance == this) Instance = null;
         }
 
-        void Update()
+        private void Update()
         {
             if (Instance == this) Simulation.Tick();
         }

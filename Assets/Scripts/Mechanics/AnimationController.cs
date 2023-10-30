@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Platformer.Core;
+﻿using Platformer.Core;
 using Platformer.Model;
 using UnityEngine;
 
@@ -16,6 +14,7 @@ namespace Platformer.Mechanics
         /// Max horizontal speed.
         /// </summary>
         public float maxSpeed = 7;
+
         /// <summary>
         /// Max jump velocity
         /// </summary>
@@ -36,9 +35,9 @@ namespace Platformer.Mechanics
         /// </summary>
         public bool stopJump;
 
-        SpriteRenderer spriteRenderer;
-        Animator animator;
-        PlatformerModel model = Simulation.GetModel<PlatformerModel>();
+        private SpriteRenderer spriteRenderer;
+        private Animator animator;
+        private PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         protected virtual void Awake()
         {

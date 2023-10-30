@@ -8,9 +8,10 @@ namespace Unity.Tutorials
     /// Contaisn all the callbacks needed for the Build And Publish tutorial
     /// </summary>
     [CreateAssetMenu(fileName = "PublishCriteria", menuName = "Tutorials/Microgame/PublishCriteria")]
-    class PublishCriteria : ScriptableObject
+    internal class PublishCriteria : ScriptableObject
     {
-        static PublisherWindow publisherWindow;
+        private static PublisherWindow publisherWindow;
+
         public bool IsNotDisplayingFirstTimeInstructions()
         {
             if (!IsWebGLPublisherOpen()) { return false; }
@@ -31,6 +32,7 @@ namespace Unity.Tutorials
                 case PublisherState.Upload:
                 case PublisherState.Process:
                     return true;
+
                 default: break;
             }
             return !string.IsNullOrEmpty(PublisherUtils.GetUrlOfLastPublishedBuild(publisherWindow));
@@ -51,6 +53,7 @@ namespace Unity.Tutorials
                 case PublisherState.Upload:
                 case PublisherState.Process:
                     return true;
+
                 default: break;
             }
             int availableBuilds = PublisherUtils.GetAllBuildsDirectories()
@@ -59,7 +62,7 @@ namespace Unity.Tutorials
             return availableBuilds > 0;
         }
 
-        bool IsWebGLPublisherOpen()
+        private bool IsWebGLPublisherOpen()
         {
             if (publisherWindow) { return true; }
             publisherWindow = PublisherWindow.FindInstance();

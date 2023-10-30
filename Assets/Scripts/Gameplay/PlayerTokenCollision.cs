@@ -14,7 +14,7 @@ namespace Platformer.Gameplay
         public PlayerController player;
         public TokenInstance token;
 
-        PlatformerModel model = Simulation.GetModel<PlatformerModel>();
+        private PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         public override void Execute()
         {

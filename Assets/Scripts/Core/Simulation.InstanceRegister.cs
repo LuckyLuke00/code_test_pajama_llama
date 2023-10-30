@@ -8,7 +8,7 @@
         /// models and configuration classes.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        static class InstanceRegister<T> where T : class, new()
+        private static class InstanceRegister<T> where T : class, new()
         {
             public static T instance = new T();
         }

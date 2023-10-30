@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace Platformer.Core
 {
@@ -11,16 +9,15 @@ namespace Platformer.Core
     /// </summary>
     public static partial class Simulation
     {
-
-        static HeapQueue<Event> eventQueue = new HeapQueue<Event>();
-        static Dictionary<System.Type, Stack<Event>> eventPools = new Dictionary<System.Type, Stack<Event>>();
+        private static HeapQueue<Event> eventQueue = new HeapQueue<Event>();
+        private static Dictionary<System.Type, Stack<Event>> eventPools = new Dictionary<System.Type, Stack<Event>>();
 
         /// <summary>
         /// Create a new event of type T and return it, but do not schedule it.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        static public T New<T>() where T : Event, new()
+        public static T New<T>() where T : Event, new()
         {
             Stack<Event> pool;
             if (!eventPools.TryGetValue(typeof(T), out pool))
@@ -49,7 +46,7 @@ namespace Platformer.Core
         /// <returns>The event.</returns>
         /// <param name="tick">Tick.</param>
         /// <typeparam name="T">The event type parameter.</typeparam>
-        static public T Schedule<T>(float tick = 0) where T : Event, new()
+        public static T Schedule<T>(float tick = 0) where T : Event, new()
         {
             var ev = New<T>();
             ev.tick = Time.time + tick;
@@ -63,7 +60,7 @@ namespace Platformer.Core
         /// <returns>The event.</returns>
         /// <param name="tick">Tick.</param>
         /// <typeparam name="T">The event type parameter.</typeparam>
-        static public T Reschedule<T>(T ev, float tick) where T : Event, new()
+        public static T Reschedule<T>(T ev, float tick) where T : Event, new()
         {
             ev.tick = Time.time + tick;
             eventQueue.Push(ev);
@@ -74,7 +71,7 @@ namespace Platformer.Core
         /// Return the simulation model instance for a class.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        static public T GetModel<T>() where T : class, new()
+        public static T GetModel<T>() where T : class, new()
         {
             return InstanceRegister<T>.instance;
         }
@@ -83,7 +80,7 @@ namespace Platformer.Core
         /// Set a simulation model instance for a class.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        static public void SetModel<T>(T instance) where T : class, new()
+        public static void SetModel<T>(T instance) where T : class, new()
         {
             InstanceRegister<T>.instance = instance;
         }
@@ -92,7 +89,7 @@ namespace Platformer.Core
         /// Destroy the simulation model instance for a class.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        static public void DestroyModel<T>() where T : class, new()
+        public static void DestroyModel<T>() where T : class, new()
         {
             InstanceRegister<T>.instance = null;
         }
@@ -103,7 +100,7 @@ namespace Platformer.Core
         /// injected from an external system via a Schedule() call.
         /// </summary>
         /// <returns></returns>
-        static public int Tick()
+        public static int Tick()
         {
             var time = Time.time;
             var executedEventCount = 0;
@@ -136,5 +133,3 @@ namespace Platformer.Core
         }
     }
 }
-
-

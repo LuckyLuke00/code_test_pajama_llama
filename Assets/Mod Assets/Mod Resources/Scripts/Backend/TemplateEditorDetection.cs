@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using UnityEngine;
 
 #if UNITY_EDITOR
 
@@ -10,10 +7,10 @@ using UnityEditor;
 
 //Checks if we are in a certain template, as some scripts are template-specific.
 [InitializeOnLoad]
-public class TemplateEditorDetection : Editor {
-
-    static TemplateEditorDetection() {
-
+public class TemplateEditorDetection : Editor
+{
+    static TemplateEditorDetection()
+    {
         //Get the current definition symbols
         string currentDefineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
         List<string> allDefineSymbols = currentDefineSymbols.Split(';').ToList();
@@ -37,9 +34,7 @@ public class TemplateEditorDetection : Editor {
         PlayerSettings.SetScriptingDefineSymbolsForGroup(
             EditorUserBuildSettings.selectedBuildTargetGroup,
             string.Join(";", allDefineSymbols.ToArray()));
-
     }
-
 }
 
 #endif

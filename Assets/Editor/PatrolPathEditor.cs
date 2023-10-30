@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Platformer.Mechanics;
+﻿using Platformer.Mechanics;
 using UnityEditor;
 using UnityEngine;
+
 namespace Platformer
 {
     [CustomEditor(typeof(PatrolPath))]
@@ -27,7 +26,7 @@ namespace Platformer
         }
 
         [DrawGizmo(GizmoType.Selected | GizmoType.NonSelected)]
-        static void OnDrawGizmo(PatrolPath path, GizmoType gizmoType)
+        private static void OnDrawGizmo(PatrolPath path, GizmoType gizmoType)
         {
             var start = path.transform.TransformPoint(path.startPosition);
             var end = path.transform.TransformPoint(path.endPosition);

@@ -4,7 +4,6 @@ using Platformer.Model;
 
 namespace Platformer.Gameplay
 {
-
     /// <summary>
     /// This event is triggered when the player character enters a trigger with a VictoryZone component.
     /// </summary>
@@ -13,7 +12,7 @@ namespace Platformer.Gameplay
     {
         public VictoryZone victoryZone;
 
-        PlatformerModel model = Simulation.GetModel<PlatformerModel>();
+        private PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         public override void Execute()
         {

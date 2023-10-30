@@ -1,5 +1,4 @@
 using Platformer.Mechanics;
-using Platformer.UI;
 using UnityEngine;
 
 namespace Platformer.UI
@@ -25,9 +24,9 @@ namespace Platformer.UI
         /// </summary>
         public GameController gameController;
 
-        bool showMainCanvas = false;
+        private bool showMainCanvas = false;
 
-        void OnEnable()
+        private void OnEnable()
         {
             _ToggleMainMenu(showMainCanvas);
         }
@@ -44,7 +43,7 @@ namespace Platformer.UI
             }
         }
 
-        void _ToggleMainMenu(bool show)
+        private void _ToggleMainMenu(bool show)
         {
             if (show)
             {
@@ -61,13 +60,12 @@ namespace Platformer.UI
             this.showMainCanvas = show;
         }
 
-        void Update()
+        private void Update()
         {
             if (Input.GetButtonDown("Menu"))
             {
                 ToggleMainMenu(show: !showMainCanvas);
             }
         }
-
     }
 }

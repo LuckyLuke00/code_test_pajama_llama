@@ -5,7 +5,7 @@ namespace Platformer.Core
     /// <summary>
     /// Fuzzy provides methods for using values +- an amount of random deviation, or fuzz.
     /// </summary>
-    static class Fuzzy
+    internal static class Fuzzy
     {
         public static bool ValueLessThan(float value, float test, float fuzz = 0.1f)
         {
