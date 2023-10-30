@@ -43,6 +43,11 @@ namespace Platformer.Mechanics
 
         public Bounds Bounds => collider2d.bounds;
 
+        [SerializeField, Tooltip("Amount of jumps allowed mid-air"), Range(0, int.MaxValue)]
+        private int _airJumps = 1;
+
+        private int _airJumpsLeft;
+
         private void Awake()
         {
             health = GetComponent<Health>();
@@ -50,20 +55,15 @@ namespace Platformer.Mechanics
             collider2d = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+
+            _airJumpsLeft = _airJumps;
         }
 
         protected override void Update()
         {
             if (controlEnabled)
             {
-                move.x = Input.GetAxis("Horizontal");
-                if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
-                    jumpState = JumpState.PrepareToJump;
-                else if (Input.GetButtonUp("Jump"))
-                {
-                    stopJump = true;
-                    Schedule<PlayerStopJump>().player = this;
-                }
+                HandleJump();
             }
             else
             {
@@ -102,16 +102,18 @@ namespace Platformer.Mechanics
 
                 case JumpState.Landed:
                     jumpState = JumpState.Grounded;
+                    _airJumpsLeft = _airJumps;
                     break;
             }
         }
 
         protected override void ComputeVelocity()
         {
-            if (jump && IsGrounded)
+            if (jump && (IsGrounded || _airJumpsLeft >= 0))
             {
-                velocity.y = jumpTakeOffSpeed * model.jumpModifier;
+                velocity.y = (jumpTakeOffSpeed * model.jumpModifier) * (_airJumpsLeft == _airJumps ? 1f : .75f);
                 jump = false;
+                --_airJumpsLeft;
             }
             else if (stopJump)
             {
@@ -139,7 +141,23 @@ namespace Platformer.Mechanics
             PrepareToJump,
             Jumping,
             InFlight,
-            Landed
+            Landed,
+            DropAttack
+        }
+
+        private void HandleJump()
+        {
+            move.x = Input.GetAxis("Horizontal");
+            if ((jumpState == JumpState.Grounded || _airJumpsLeft >= 0) && Input.GetButtonDown("Jump"))
+            {
+                jumpState = JumpState.PrepareToJump;
+            }
+            // Stop jump mid air
+            else if (Input.GetButtonUp("Jump"))
+            {
+                stopJump = true;
+                Schedule<PlayerStopJump>().player = this;
+            }
         }
     }
 }
