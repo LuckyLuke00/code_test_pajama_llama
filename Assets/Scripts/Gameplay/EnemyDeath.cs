@@ -11,12 +11,16 @@ namespace Platformer.Gameplay
     {
         public EnemyController enemy;
 
+        public static event System.Action OnEnemyDeath;
+
         public override void Execute()
         {
             enemy._collider.enabled = false;
             enemy.control.enabled = false;
             if (enemy._audio && enemy.ouch)
                 enemy._audio.PlayOneShot(enemy.ouch);
+
+            OnEnemyDeath?.Invoke();
         }
     }
 }
