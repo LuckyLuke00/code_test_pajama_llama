@@ -22,12 +22,15 @@ namespace Platformer.Mechanics
 
         private int currentHP;
 
+        private FloatingHealthBar _healthBar;
+
         /// <summary>
         /// Increment the HP of the entity.
         /// </summary>
         public void Increment()
         {
             currentHP = Mathf.Clamp(currentHP + 1, 0, maxHP);
+            UpdateHealthBar();
         }
 
         /// <summary>
@@ -36,6 +39,7 @@ namespace Platformer.Mechanics
         public void ResetHealth()
         {
             currentHP = maxHP;
+            UpdateHealthBar();
         }
 
         /// <summary>
@@ -50,6 +54,7 @@ namespace Platformer.Mechanics
                 var ev = Schedule<HealthIsZero>();
                 ev.health = this;
             }
+            UpdateHealthBar();
         }
 
         /// <summary>
@@ -63,6 +68,13 @@ namespace Platformer.Mechanics
         private void Awake()
         {
             currentHP = maxHP;
+            _healthBar = GetComponentInChildren<FloatingHealthBar>();
+            UpdateHealthBar();
+        }
+
+        private void UpdateHealthBar()
+        {
+            _healthBar?.UpdateHealthBar(currentHP, maxHP);
         }
     }
 }

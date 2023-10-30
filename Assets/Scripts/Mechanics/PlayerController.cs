@@ -13,8 +13,8 @@ namespace Platformer.Mechanics
     public class PlayerController : KinematicObject
     {
         public AudioClip jumpAudio;
-        public AudioClip respawnAudio;
         public AudioClip ouchAudio;
+        public AudioClip respawnAudio;
 
         /// <summary>
         /// Max horizontal speed of the player.
@@ -26,22 +26,21 @@ namespace Platformer.Mechanics
         /// </summary>
         public float jumpTakeOffSpeed = 7;
 
-        public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
-        /*internal new*/
-        public Collider2D collider2d;
-        /*internal new*/
         public AudioSource audioSource;
-        public Health health;
         public bool controlEnabled = true;
+        public Collider2D collider2d;
+        public Health health;
+        public JumpState jumpState = JumpState.Grounded;
 
-        private bool jump;
-        private Vector2 move;
-        private SpriteRenderer spriteRenderer;
         internal Animator animator;
         private readonly PlatformerModel model = Simulation.GetModel<PlatformerModel>();
+        private SpriteRenderer spriteRenderer;
+        private Vector2 move;
 
         public Bounds Bounds => collider2d.bounds;
+
+        private bool jump;
 
         [SerializeField, Tooltip("Amount of jumps allowed mid-air"), Range(0, int.MaxValue)]
         private int _airJumps = 1;
@@ -64,6 +63,10 @@ namespace Platformer.Mechanics
             if (controlEnabled)
             {
                 HandleJump();
+            }
+            else
+            {
+                move.x = 0;
             }
             UpdateJumpState();
             base.Update();
