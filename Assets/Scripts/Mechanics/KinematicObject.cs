@@ -39,7 +39,6 @@ namespace Platformer.Mechanics
         protected const float minMoveDistance = 0.001f;
         protected const float shellRadius = 0.01f;
 
-
         /// <summary>
         /// Bounce the object's vertical velocity.
         /// </summary>
@@ -96,7 +95,6 @@ namespace Platformer.Mechanics
 
         protected virtual void ComputeVelocity()
         {
-
         }
 
         protected virtual void FixedUpdate()
@@ -122,10 +120,9 @@ namespace Platformer.Mechanics
             move = Vector2.up * deltaPosition.y;
 
             PerformMovement(move, true);
-
         }
 
-        void PerformMovement(Vector2 move, bool yMovement)
+        private void PerformMovement(Vector2 move, bool yMovement)
         {
             var distance = move.magnitude;
 
@@ -158,12 +155,7 @@ namespace Platformer.Mechanics
                             velocity = velocity - projection * currentNormal;
                         }
                     }
-                    else
-                    {
-                        //We are airborne, but hit something, so cancel vertical up and horizontal velocity.
-                        velocity.x *= 0;
-                        velocity.y = Mathf.Min(velocity.y, 0);
-                    }
+
                     //remove shellDistance from actual move distance.
                     var modifiedDistance = hitBuffer[i].distance - shellRadius;
                     distance = modifiedDistance < distance ? modifiedDistance : distance;
@@ -171,6 +163,5 @@ namespace Platformer.Mechanics
             }
             body.position = body.position + move.normalized * distance;
         }
-
     }
 }

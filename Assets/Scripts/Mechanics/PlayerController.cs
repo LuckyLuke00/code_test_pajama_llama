@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Platformer.Gameplay;
 using static Platformer.Core.Simulation;
 using Platformer.Model;
@@ -22,6 +20,7 @@ namespace Platformer.Mechanics
         /// Max horizontal speed of the player.
         /// </summary>
         public float maxSpeed = 7;
+
         /// <summary>
         /// Initial jump velocity at the start of a jump.
         /// </summary>
@@ -29,20 +28,22 @@ namespace Platformer.Mechanics
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
-        /*internal new*/ public Collider2D collider2d;
-        /*internal new*/ public AudioSource audioSource;
+        /*internal new*/
+        public Collider2D collider2d;
+        /*internal new*/
+        public AudioSource audioSource;
         public Health health;
         public bool controlEnabled = true;
 
-        bool jump;
-        Vector2 move;
-        SpriteRenderer spriteRenderer;
+        private bool jump;
+        private Vector2 move;
+        private SpriteRenderer spriteRenderer;
         internal Animator animator;
-        readonly PlatformerModel model = Simulation.GetModel<PlatformerModel>();
+        private readonly PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         public Bounds Bounds => collider2d.bounds;
 
-        void Awake()
+        private void Awake()
         {
             health = GetComponent<Health>();
             audioSource = GetComponent<AudioSource>();
@@ -72,7 +73,7 @@ namespace Platformer.Mechanics
             base.Update();
         }
 
-        void UpdateJumpState()
+        private void UpdateJumpState()
         {
             jump = false;
             switch (jumpState)
@@ -82,6 +83,7 @@ namespace Platformer.Mechanics
                     jump = true;
                     stopJump = false;
                     break;
+
                 case JumpState.Jumping:
                     if (!IsGrounded)
                     {
@@ -89,6 +91,7 @@ namespace Platformer.Mechanics
                         jumpState = JumpState.InFlight;
                     }
                     break;
+
                 case JumpState.InFlight:
                     if (IsGrounded)
                     {
@@ -96,6 +99,7 @@ namespace Platformer.Mechanics
                         jumpState = JumpState.Landed;
                     }
                     break;
+
                 case JumpState.Landed:
                     jumpState = JumpState.Grounded;
                     break;
