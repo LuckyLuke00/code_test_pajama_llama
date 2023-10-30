@@ -40,5 +40,26 @@ namespace Mechanics.Objectives
 
             Debug.Log("All objectives complete!");
         }
+
+        public void ResetObjectives()
+        {
+            foreach (var objective in _objectives)
+            {
+                objective.ResetObjective();
+            }
+        }
+
+        public bool AreAllObjectivesComplete()
+        {
+            foreach (var objective in _objectives)
+            {
+                if (!objective.IsComplete())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
