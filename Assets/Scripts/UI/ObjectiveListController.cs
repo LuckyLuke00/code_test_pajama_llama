@@ -1,7 +1,7 @@
+using Mechanics.Objectives;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mechanics.Objectives;
 
 namespace Platformer.UI
 {

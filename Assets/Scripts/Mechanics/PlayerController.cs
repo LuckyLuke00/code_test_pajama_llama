@@ -27,6 +27,8 @@ namespace Platformer.Mechanics
         public float jumpTakeOffSpeed = 7;
 
         private bool stopJump;
+        private bool ignoreDropAttackKey;
+        private bool ignoreJumpKey;
         public AudioSource audioSource;
         public bool controlEnabled = true;
         public Collider2D collider2d;
@@ -97,10 +99,33 @@ namespace Platformer.Mechanics
                         Schedule<PlayerLanded>().player = this;
                         jumpState = JumpState.Landed;
                     }
+                    else if (!ignoreDropAttackKey && Input.GetAxis("Vertical") < 0f)
+                    {
+                        jumpState = JumpState.DropAttack;
+                        ignoreDropAttackKey = true;
+                        ignoreJumpKey = true;
+                    }
+                    break;
+
+                case JumpState.DropAttack:
+                    ignoreJumpKey = true;
+                    // Preform a drop attack if we're not grounded
+                    if (!IsGrounded)
+                    {
+                        velocity.y = -jumpTakeOffSpeed * model.jumpModifier;
+                    }
+                    // If we're grounded, we want to bounce back up.
+                    else
+                    {
+                        velocity.y = jumpTakeOffSpeed * model.jumpModifier;
+                        ignoreDropAttackKey = false;
+                        jumpState = JumpState.InFlight;
+                    }
                     break;
 
                 case JumpState.Landed:
                     jumpState = JumpState.Grounded;
+                    ignoreJumpKey = false;
                     _airJumpsLeft = _airJumps;
                     break;
             }
@@ -152,7 +177,7 @@ namespace Platformer.Mechanics
                 move.x = Input.GetAxis("Horizontal");
             }
 
-            if ((jumpState == JumpState.Grounded || _airJumpsLeft >= 0 && jumpState != JumpState.Grounded) && Input.GetButtonDown("Jump"))
+            if (!ignoreJumpKey && (jumpState == JumpState.Grounded || _airJumpsLeft >= 0 && jumpState != JumpState.Grounded) && Input.GetButtonDown("Jump"))
             {
                 jumpState = JumpState.PrepareToJump;
             }
