@@ -20,6 +20,17 @@ namespace Platformer.Mechanics
         //conveniently configured inside the inspector.
         public PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
+        private CheckPoint[] _checkPoints;
+
+        private void Awake()
+        {
+            _checkPoints = FindObjectsOfType<CheckPoint>();
+            if (_checkPoints.Length == 0)
+            {
+                Debug.LogWarning("No CheckPoints found in the scene.");
+            }
+        }
+
         private void OnEnable()
         {
             Instance = this;
@@ -33,6 +44,24 @@ namespace Platformer.Mechanics
         private void Update()
         {
             if (Instance == this) Simulation.Tick();
+        }
+
+        // Function that returns the furthest activated checkpoint
+        public Transform GetBestCheckPoint()
+        {
+            Transform bestCheckpoint = model.spawnPoint;
+            foreach (CheckPoint checkPoint in _checkPoints)
+            {
+                Debug.Log(checkPoint.Activated);
+                if (!checkPoint.Activated) continue;
+
+                if (checkPoint.transform.position.x > bestCheckpoint.position.x)
+                {
+                    bestCheckpoint = checkPoint.transform;
+                }
+            }
+
+            return bestCheckpoint;
         }
     }
 }

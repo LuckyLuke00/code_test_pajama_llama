@@ -19,7 +19,7 @@ namespace Platformer.Gameplay
             if (player.audioSource && player.respawnAudio)
                 player.audioSource.PlayOneShot(player.respawnAudio);
             player.health.ResetHealth();
-            player.Teleport(model.spawnPoint.transform.position);
+            player.Teleport(GameController.Instance.GetBestCheckPoint().position);
             player.jumpState = PlayerController.JumpState.Grounded;
             player.animator.SetBool("dead", false);
             model.virtualCamera.m_Follow = player.transform;
