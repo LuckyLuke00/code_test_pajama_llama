@@ -1,3 +1,4 @@
+using Platformer.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Mechanics.Objectives
     public class ObjectiveManager : MonoBehaviour
     {
         private List<Objective> _objectives = new List<Objective>();
+        private ObjectiveListController _objectiveListController;
 
         private void Awake()
         {
@@ -16,29 +18,37 @@ namespace Mechanics.Objectives
                 enabled = false;
                 return;
             }
+
+            _objectiveListController = FindObjectOfType<ObjectiveListController>();
+            if (!_objectiveListController)
+            {
+                Debug.LogWarning("No ObjectiveListController found in scene");
+            }
+
+            // For every objective, add it to the objective list controller
+            if (_objectiveListController)
+            {
+                foreach (var objective in _objectives)
+                {
+                    _objectiveListController.AddObjective(objective);
+                }
+            }
         }
 
         private void OnEnable()
         {
-            Objective.OnObjectiveCompleted += OnObjectiveCompleted;
+            Objective.OnObjectiveUpdated += UpdateObjectives;
         }
 
         private void OnDisable()
         {
-            Objective.OnObjectiveCompleted -= OnObjectiveCompleted;
+            Objective.OnObjectiveUpdated -= UpdateObjectives;
         }
 
-        private void OnObjectiveCompleted()
+        private void UpdateObjectives()
         {
-            foreach (var objective in _objectives)
-            {
-                if (!objective.IsComplete())
-                {
-                    return;
-                }
-            }
-
-            Debug.Log("All objectives complete!");
+            if (!_objectiveListController) return;
+            _objectiveListController.UpdateObjectiveList();
         }
 
         public void ResetObjectives()

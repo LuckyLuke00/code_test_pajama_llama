@@ -1,4 +1,5 @@
 using Platformer.Mechanics;
+using Platformer.UI;
 using UnityEngine;
 
 namespace Mechanics.Objectives
@@ -32,8 +33,17 @@ namespace Mechanics.Objectives
         private void OnTokenCollected()
         {
             ++_tokensCollected;
-            if (!IsComplete()) return;
-            Complete();
+            base.UpdateObjective();
+
+            CheckComplete();
+        }
+
+        public override void UpdateObjectiveText(ObjectiveText objectiveText)
+        {
+            objectiveText.UpdateText(_objectiveText, _tokensCollected, _tokensToCollect);
+
+            if (_isComplete) objectiveText.CompleteText();
+            else objectiveText.ResetText();
         }
     }
 }

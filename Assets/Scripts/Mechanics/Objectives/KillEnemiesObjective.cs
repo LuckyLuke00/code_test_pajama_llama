@@ -1,4 +1,5 @@
 using Platformer.Gameplay;
+using Platformer.UI;
 using UnityEngine;
 
 namespace Mechanics.Objectives
@@ -32,8 +33,16 @@ namespace Mechanics.Objectives
         private void OnEnemyKilled()
         {
             ++_enemiesKilled;
+            base.UpdateObjective();
+
             if (!IsComplete()) return;
-            Complete();
+            CheckComplete();
+        }
+
+        public override void UpdateObjectiveText(ObjectiveText objectiveText)
+        {
+            objectiveText.UpdateText(_objectiveText, _enemiesKilled, _enemiesToKill);
+            if (IsComplete()) objectiveText.CompleteText();
         }
     }
 }

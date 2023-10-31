@@ -1,28 +1,34 @@
+using Platformer.UI;
 using UnityEngine;
 
 namespace Mechanics.Objectives
 {
     public abstract class Objective : MonoBehaviour
     {
-        // variable that stores if the objective was completed
         protected bool _isComplete = false;
 
-        // Create an abstract event for when the objective is completed
-        public delegate void ObjectiveCompleted();
+        public delegate void ObjectiveUpdated();
 
-        public static event ObjectiveCompleted OnObjectiveCompleted;
+        public static event ObjectiveUpdated OnObjectiveUpdated;
+
+        [SerializeField] protected string _objectiveText = string.Empty;
 
         public abstract bool IsComplete();
 
-        protected virtual void Complete()
+        protected virtual void CheckComplete()
         {
             if (_isComplete) return;
+            _isComplete = IsComplete();
+        }
 
-            _isComplete = true;
-            OnObjectiveCompleted?.Invoke();
+        protected virtual void UpdateObjective()
+        {
+            OnObjectiveUpdated?.Invoke();
         }
 
         // Reset
         public abstract void ResetObjective();
+
+        public abstract void UpdateObjectiveText(ObjectiveText objectiveText);
     }
 }
