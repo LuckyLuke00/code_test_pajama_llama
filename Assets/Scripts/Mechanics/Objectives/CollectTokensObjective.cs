@@ -33,9 +33,9 @@ namespace Mechanics.Objectives
         private void OnTokenCollected()
         {
             ++_tokensCollected;
-            base.UpdateObjective();
-
             CheckComplete();
+
+            base.UpdateObjective();
         }
 
         public override void UpdateObjectiveText(ObjectiveText objectiveText)
